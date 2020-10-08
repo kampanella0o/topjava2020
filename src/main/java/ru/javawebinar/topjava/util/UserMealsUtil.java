@@ -61,8 +61,7 @@ public class UserMealsUtil {
         List<UserMealWithExcess> mealsWithExcesses = new ArrayList<>();
 
         meals.stream()
-                .filter(m -> m.getTime().isAfter(startTime))
-                .filter(m -> m.getTime().isBefore(endTime))
+                .filter(m -> isBetweenHalfOpen(m.getTime(), startTime, endTime))
                 .forEach(m -> mealsWithExcesses.add(new UserMealWithExcess(m.getDateTime(), m.getDescription(), m.getCalories(), map.get(m.getDate()) > caloriesPerDay)));
 
         return mealsWithExcesses;

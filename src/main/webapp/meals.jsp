@@ -23,6 +23,21 @@
     <h2>Meals</h2>
     <a href="meals?action=create">Add Meal</a>
     <br><br>
+    <div>
+        <h3>Date-time filter</h3>
+        <form action="meals" method="get">
+            <input type="hidden" name="action" value="filter">
+            <div style="display: inline-block;margin-right:10px">
+                Time from: <input  name="startTime" type="time"><br>
+                Time to: <input  name="endTime" type="time">
+            </div>
+            <div style="display: inline-block;min-block-size: 70px;">
+                Date from: <input name="startDate" type="date"><br>
+                Date to: <input name="endDate" type="date">
+            </div><br>
+            <button type="submit">Apply Filter</button>
+        </form>
+    </div>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>

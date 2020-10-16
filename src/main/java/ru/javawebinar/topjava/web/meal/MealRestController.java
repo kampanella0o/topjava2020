@@ -21,22 +21,22 @@ public class MealRestController {
     private MealService service;
 
     public List<MealTo> getAll(){
-        log.info("getAll");
+        log.info("get all for {}", authUserId());
         return service.getAll(authUserId());
     }
 
     public Meal get(int id){
-        log.info("get {}", id);
+        log.info("get {} for {}", id, authUserId());
         return service.get(id, authUserId());
     }
 
     public Meal create (Meal meal){
-        log.info("create {}", meal);
+        log.info("create {} for {}", meal, authUserId());
         return service.create(meal, authUserId());
     }
 
     public void delete (int id){
-        log.info("delete {}", id);
+        log.info("delete {} for {}", id, authUserId());
         service.delete(id, authUserId());
     }
 

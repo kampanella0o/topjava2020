@@ -23,22 +23,27 @@ public class MealService {
     }
 
     public Meal create(Meal meal, int userID){
+        log.info("create {} for {}", meal, userID);
         return repository.save(meal, userID);
     }
 
     public void delete(int id, int userID){
+        log.info("delete {} for {}", id, userID);
         checkNotFoundWithId(repository.delete(id, userID), id);
     }
 
     public Meal get(int id, int userID){
+        log.info("get {} for {}", id, userID);
         return checkNotFoundWithId(repository.get(id, userID), id);
     }
 
     public List<MealTo> getAll(int userID){
+        log.info("get all for {}", userID);
         return MealsUtil.getTos(repository.getAll(userID), MealsUtil.DEFAULT_CALORIES_PER_DAY);
     }
 
     public void update(Meal meal, int userID){
+        log.info("update {} for {}", meal, userID);
         checkNotFoundWithId(checkNotFoundWithId(repository.save(meal, userID), meal.getId()), userID);
     }
 }

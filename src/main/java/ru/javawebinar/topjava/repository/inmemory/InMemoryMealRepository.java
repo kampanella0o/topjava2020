@@ -22,17 +22,14 @@ public class InMemoryMealRepository implements MealRepository {
     private final Map<Integer, Meal> repository = new ConcurrentHashMap<>();
     private final AtomicInteger counter = new AtomicInteger(0);
 
-    {
-        MealsUtil.meals.forEach(m -> save(m, SecurityUtil.authUserId()));
-    }
-
     @Override
     public Meal save(Meal meal, int userId) {
-        log.info("save {}", meal);
+        log.info("save {} for {}", meal, userId);
         meal.setUserId(userId);
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
             repository.put(meal.getId(), meal);
+            log.debug(String.valueOf(repository));
             return meal;
         }
         // handle case: update, but not present in storage
@@ -41,14 +38,14 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public boolean delete(int id, int userId) {
-        log.info("delete {}", id);
+        log.info("delete {} for {}", id, userId);
         if (repository.get(id) == null || repository.get(id).getUserId() != userId) return false;
         return repository.remove(id) != null;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        log.info("get {}", id);
+        log.info("get {} for {}", id, userId);
 //        return repository.get(id).getUserId() == userId ? repository.get(id) : null;
         if (repository.get(id) == null) return null;
         return repository.get(id).getUserId() == userId ? repository.get(id) : null;
@@ -56,7 +53,7 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public List<Meal> getAll(int userId) {
-        log.info("getAll");
+        log.info("getAll for {}", userId);
         return repository.values().stream()
                 .filter(meal -> meal.getUserId() == userId)
                 .sorted(Comparator.comparing(Meal::getDateTime).reversed())
